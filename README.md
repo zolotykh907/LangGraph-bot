@@ -16,7 +16,7 @@ pip install -r requirements.txt
 Далее нужно получить API ключ
 ⚙️ [LangChain Smith Settings](https://smith.langchain.com/settings)
 
-Этот ключ вставить в файл .env
+Создайте файл .env, скопируйте содержимое из .env_example и вставьте ключ:
 ```
 LANGSMITH_API_KEY=lsv2...
 ```
