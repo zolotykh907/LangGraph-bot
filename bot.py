@@ -6,7 +6,6 @@ from langgraph.graph import StateGraph
 
 State = TypedDict("State", {"user_input": str, "output": str})
 
-
 def get_current_time() -> dict:
     """Return the current UTC time in ISO‑8601 format.
     Example → {"utc": "2025‑05‑21T06:42:00Z"}"""
