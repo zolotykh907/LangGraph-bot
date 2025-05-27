@@ -2,3 +2,4 @@ langgraph
 langchain-community
 langchain-core
 ollama
+langgraph-cli[inmem]
