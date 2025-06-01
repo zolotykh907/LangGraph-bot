@@ -1,7 +1,7 @@
 from typing import TypedDict
 from datetime import datetime, timezone
-from langchain_community.llms import Ollama
 from langgraph.graph import StateGraph
+from langchain_ollama import OllamaLLM
 
 
 State = TypedDict("State", {"user_input": str, "output": str})
@@ -13,7 +13,7 @@ def get_current_time() -> dict:
     current_time = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     return {"utc": current_time}
 
-def is_time(input_text: str, llm: Ollama) -> bool:
+def is_time(input_text: str, llm: OllamaLLM) -> bool:
     """Проверим, содержит ли текст слова, связанные со временем, быстрая проверка"""
     time_words = ["time now", "current time", "который час", "сколько времени"]
     lower_input = input_text.lower()
@@ -42,7 +42,7 @@ def is_time(input_text: str, llm: Ollama) -> bool:
     return True
 
 def message_process(state: State) -> State:
-    llm = Ollama(model="llama3")
+    llm = OllamaLLM(model="llama3")
     user_input = state["user_input"]
 
     if is_time(user_input, llm):
@@ -58,3 +58,16 @@ app = (
     .add_edge("__start__", "process")
     .compile()
 )
+
+
+if __name__ == "__main__":
+    print("Добро пожаловать в чат-бот!\n" \
+        "Введите 'exit' или 'выход' для выхода.\n")
+    while True:
+        user_input = input("Вы: ")
+        
+        if user_input.lower() in ["exit", "выход"]:
+            break
+
+        res = app.invoke({"user_input": user_input, "output": ""})
+        print("Ответ:", res["output"])
