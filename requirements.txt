@@ -1,5 +1,5 @@
 langgraph
-langchain-community
+langchain-ollama
 langchain-core
 ollama
 langgraph-cli[inmem]
