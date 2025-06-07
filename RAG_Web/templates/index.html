@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LLM Chat</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Чат с LLM</h1>
+    <div id="chat-box"></div>
+    <form id="chat-form">
+        <input type="text" id="user-input" placeholder="Введите сообщение..." required>
+        <button type="submit">Отправить</button>
+    </form>
+    <script>
+        const form = document.getElementById("chat-form");
+        const chatBox = document.getElementById("chat-box");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const input = document.getElementById("user-input");
+            const userText = input.value;
+            chatBox.innerHTML += `<div><strong>Вы:</strong> ${userText}</div>`;
+            input.value = "";
+
+            const res = await fetch("/chat", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({user_input: userText})
+            });
+            const data = await res.json();
+            chatBox.innerHTML += `<div><strong>Бот:</strong> ${data.response}</div>`;
+        });
+    </script>
+</body>
+</html>
